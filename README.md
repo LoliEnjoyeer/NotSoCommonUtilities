@@ -35,4 +35,5 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 ## Credits
 - Plugin idea came while looking at exiled version of the plugin created by Exiled team I think? (https://github.com/Exiled-Team/Common-Utils) thought it's really awesome and wanted to create something similar yet something different for Synapse users
 - code is mine
+- C.A.S.S.I.E Messages looked up at steam guide (https://steamcommunity.com/sharedfiles/filedetails/?id=2275568019) created by Feiah (https://steamcommunity.com/id/Feiah)
 - will add more credits as I add more functionality to the plugin
