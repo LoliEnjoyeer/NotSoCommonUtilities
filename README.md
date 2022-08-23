@@ -1,5 +1,5 @@
 # NotSoCommonUtilities
-Synapse plugin for game SCP Secret Laboratory that adds features to make game experience more interesting
+Synapse plugin for game SCP Secret Laboratory that adds features to make game experience more interesting. Each feature can be disabled separately in config file.
 
 ## Features for now
 
