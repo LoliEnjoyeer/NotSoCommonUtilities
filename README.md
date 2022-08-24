@@ -21,11 +21,17 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 - While having coin in hand interact with door to block them, it will:
   1 Close the doors (if they aren't closed)
   2 Lock them for X amount of seconds 
+  
+#### Guards can escape
+- Guards while approaching the surface escape for ClassD/Scientist will turn into Ntf Cadet
+
+#### 096 Notification
+- If you are target of 096 you will get text notification
 
 
 ## TODO List
 
-- Guards can escape turning into mtf
+- Guards can escape turning into mtf ✅
 - Mtf/CI can escort other team turning them into their own
 - Easy custom loudouts with pure config file
 - custom 914 recipes
