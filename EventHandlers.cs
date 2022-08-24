@@ -1,5 +1,6 @@
 ﻿using Synapse;
 using Synapse.Api;
+using System;
 using System.Timers;
 
 namespace CommonUtilities
@@ -8,9 +9,12 @@ namespace CommonUtilities
     {
         public static System.Random rnd = new System.Random();
         private bool firedOnce = false;
+        private bool firedOnce2 = false;
+        private bool isBlackoutActive = false;
         public static Timer NukeActivation = new Timer(PluginClass.Config.NukeActivationDelay * 1000);
         public static Timer CassieDelay = new Timer(PluginClass.Config.CassieDelay * 1000);
         public static Timer BlackoutActivation = new Timer((rnd.Next(PluginClass.Config.minBlackout, PluginClass.Config.maxBlackout) + PluginClass.Config.blackoutDelay ) * 1000);
+        public static Timer Generator = new Timer(1000);
 
         public EventHandlers()
         {
@@ -18,8 +22,12 @@ namespace CommonUtilities
             {
                 if(PluginClass.Config.isNuke)
                     SynapseController.Server.Events.Round.RoundStartEvent += NukeTimer;
-                if(PluginClass.Config.isBlackout)
+                if (PluginClass.Config.isBlackout)
+                {
                     SynapseController.Server.Events.Round.RoundStartEvent += BlackoutTimer;
+                    SynapseController.Server.Events.Player.PlayerGeneratorInteractEvent += RestoreGenerators;
+                }
+                
                 if (PluginClass.Config.isCoin)
                     SynapseController.Server.Events.Map.DoorInteractEvent += BlockDoors;
             }
@@ -50,12 +58,45 @@ namespace CommonUtilities
                         blockTime.Start();
                         ev.Door.Locked= true;
                     }
+                    
                 }
         }
 
         public static void blockTime_Elapsed(object sender, ElapsedEventArgs e, Door door)
         {
             door.Locked = false;
+        }
+
+        private void RestoreGenerators(Synapse.Api.Events.SynapseEventArguments.PlayerGeneratorInteractEventArgs ev)
+        {
+            Generator.Enabled = true;
+            Generator.AutoReset = true;
+            Generator.Elapsed += RestoreGenerators_Elapsed;
+            Generator.Start();
+        }
+
+        private void RestoreGenerators_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            int count = 0;
+            foreach(var gen in Map.Get.Generators)
+            {
+                if (gen.Engaged)
+                    count++;
+            }
+
+            if (count == 3)
+            {
+                BlackoutActivation.Stop();
+                Generator.Stop();
+                Generator.AutoReset = false;
+                Generator.Enabled = false;
+                if(!firedOnce2)
+                {
+                    Map.Get.Cassie(PluginClass.Config.cassieBlackoutFix);
+                    firedOnce2 = true;
+                }
+                
+            }
         }
 
         private void BlackoutTimer()
@@ -71,6 +112,7 @@ namespace CommonUtilities
             if (!firedOnce)
             {
                 firedOnce = true;
+                isBlackoutActive = true;
                 Map.Get.Cassie(PluginClass.Config.CassieBlackout);
             }
             

@@ -44,6 +44,9 @@ namespace CommonUtilities
         [Description("Flicker duration (preferably lower than 1 to imitate flicker effect)")]
         public float flickerDuration = 0.5f;
 
+        [Description("Cassie message after fixing 3 generators")]
+        public string cassieBlackoutFix = "pitch.1 .g2 . .g2 . pitch_1 generators have been engaged pitch_.8 .g2 . pitch_1 All Facility light systems working  .g1 . . . pitch_1 All class d personnel return to designated zone immediately pitch_2 end_bell";
+
         [Description("Is blocking doors with coin enabled?")]
         public bool isCoin = true;
 
