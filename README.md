@@ -14,6 +14,7 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
   - Lights going out completely and closing doors in the room
   - Lights are going to flicker for a second
 - C.A.S.S.I.E Has special message for that event as well
+- After activating 3 generators blackouts stop for good
 
 #### Coins blocking doors
 - Coins finally getting some usage
@@ -29,7 +30,7 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 - Easy custom loudouts with pure config file
 - custom 914 recipes
 - ability to blindfold somebody
-- Ability for players to fix blackouts permamently
+- Ability for players to fix blackouts permamently ✅
 - Maybe more...
 
 
