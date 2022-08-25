@@ -6,11 +6,11 @@ namespace CommonUtilities
         Author = "LoliEnjoyeer",
         Description = "Adds features to spice up the gameplay",
         LoadPriority = 0,
-        Name = "Common Utilities",
+        Name = "Not So Common Utilities",
         SynapseMajor = 2,
         SynapseMinor = 10,
         SynapsePatch = 0,
-        Version = "0.0.1"
+        Version = "0.2.0"
         )]
     public class PluginClass : AbstractPlugin
     {

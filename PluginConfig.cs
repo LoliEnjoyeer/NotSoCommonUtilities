@@ -1,5 +1,6 @@
 ﻿using Synapse.Config;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace CommonUtilities
 {
@@ -52,5 +53,11 @@ namespace CommonUtilities
 
         [Description("Time which doors should be blocked for in seconds")]
         public int coinBlockTime = 8;
+
+        [Description("Is showing who's target of 096 enabled?")]
+        public bool isTarget = true;
+
+        [Description("Can guards escape turning into mtf?")]
+        public bool canEscape = true;
     }
 }

@@ -1,12 +1,16 @@
 ﻿using Synapse;
 using Synapse.Api;
+using Synapse.Api.Events.SynapseEventArguments;
 using System;
+using System.Collections.Generic;
 using System.Timers;
+using UnityEngine;
 
 namespace CommonUtilities
 {
-    public class EventHandlers
+    public class EventHandlers : MonoBehaviour
     {
+        List<Player> tablica;
         public static System.Random rnd = new System.Random();
         private bool firedOnce = false;
         private bool firedOnce2 = false;
@@ -15,6 +19,7 @@ namespace CommonUtilities
         public static Timer CassieDelay = new Timer(PluginClass.Config.CassieDelay * 1000);
         public static Timer BlackoutActivation = new Timer((rnd.Next(PluginClass.Config.minBlackout, PluginClass.Config.maxBlackout) + PluginClass.Config.blackoutDelay ) * 1000);
         public static Timer Generator = new Timer(1000);
+        public static Timer CheckIfEscaped = new Timer(500);
 
         public EventHandlers()
         {
@@ -27,13 +32,40 @@ namespace CommonUtilities
                     SynapseController.Server.Events.Round.RoundStartEvent += BlackoutTimer;
                     SynapseController.Server.Events.Player.PlayerGeneratorInteractEvent += RestoreGenerators;
                 }
-                
                 if (PluginClass.Config.isCoin)
                     SynapseController.Server.Events.Map.DoorInteractEvent += BlockDoors;
+                if (PluginClass.Config.isTarget)
+                    SynapseController.Server.Events.Scp.Scp096.Scp096AddTargetEvent += ShowTargets;
+                if (PluginClass.Config.canEscape)
+                    SynapseController.Server.Events.Round.RoundStartEvent += ManageEscapes;
             }
         }
 
-        private void BlockDoors(Synapse.Api.Events.SynapseEventArguments.DoorInteractEventArgs ev)
+        private void ManageEscapes()
+        {
+            CheckIfEscaped.Elapsed += CheckIfEscaped_Elapsed;
+            CheckIfEscaped.Enabled = true;
+            CheckIfEscaped.AutoReset = true;
+            CheckIfEscaped.Start();
+        }
+
+        private void CheckIfEscaped_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            foreach(Player player in tablica)
+            {
+                    float x = player.Position.x;
+                    float z = player.Position.z;
+                    if (x >= 168.4 && x <= 171.9 && z >= 23.0 && z <= 25.0)
+                        player.RoleID = 13;
+            }
+        }
+
+        private void ShowTargets(Scp096AddTargetEventArgument ev)
+        {
+            ev.Player.GiveTextHint("You are target of SCP-096, run!", 5);
+        }
+
+        private void BlockDoors(DoorInteractEventArgs ev)
         {
             Door door;
             Timer blockTime = new Timer();
@@ -67,7 +99,7 @@ namespace CommonUtilities
             door.Locked = false;
         }
 
-        private void RestoreGenerators(Synapse.Api.Events.SynapseEventArguments.PlayerGeneratorInteractEventArgs ev)
+        private void RestoreGenerators(PlayerGeneratorInteractEventArgs ev)
         {
             Generator.Enabled = true;
             Generator.AutoReset = true;
@@ -77,19 +109,15 @@ namespace CommonUtilities
 
         private void RestoreGenerators_Elapsed(object sender, ElapsedEventArgs e)
         {
-            int count = 0;
-            foreach(var gen in Map.Get.Generators)
-            {
-                if (gen.Engaged)
-                    count++;
-            }
+            //Server.Get.Players.ForEach(p => Synapse.Api.Logger.Get.Send(p.Position, System.ConsoleColor.Red));
 
-            if (count == 3)
+            if (Map.Get.HeavyController.ActiveGenerators == 3)
             {
                 BlackoutActivation.Stop();
                 Generator.Stop();
                 Generator.AutoReset = false;
                 Generator.Enabled = false;
+                isBlackoutActive = false;
                 if(!firedOnce2)
                 {
                     Map.Get.Cassie(PluginClass.Config.cassieBlackoutFix);
@@ -101,6 +129,11 @@ namespace CommonUtilities
 
         private void BlackoutTimer()
         {
+            foreach(Player player in Server.Get.Players)
+            {
+                if (player.RoleID == 15)
+                    tablica.Add(player);
+            }
             BlackoutActivation.Elapsed += BlackoutTimer_Elapsed;
             BlackoutActivation.Enabled = true;
             BlackoutActivation.AutoReset = true;
@@ -148,6 +181,8 @@ namespace CommonUtilities
             CassieDelay.Enabled = true;
             CassieDelay.AutoReset = false;
             CassieDelay.Start();
+            NukeActivation.Stop();
+            NukeActivation.Enabled = false;
         }
 
         private static void CassieDelay_Elapsed(object sender, ElapsedEventArgs e)
@@ -155,6 +190,8 @@ namespace CommonUtilities
             Map.Get.Nuke.StartDetonation();
             Map.Get.Nuke.InsidePanel.Locked = true;
             Server.Get.Players.ForEach(p => p.SendBroadcast(5, "Automatic Nuke has been activated", true));
+            CassieDelay.Stop();
+            CassieDelay.Enabled = false;
         }
     }
 }
