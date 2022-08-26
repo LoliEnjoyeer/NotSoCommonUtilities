@@ -10,7 +10,7 @@ namespace CommonUtilities
         SynapseMajor = 2,
         SynapseMinor = 10,
         SynapsePatch = 0,
-        Version = "0.2.0"
+        Version = "1.0.0"
         )]
     public class PluginClass : AbstractPlugin
     {

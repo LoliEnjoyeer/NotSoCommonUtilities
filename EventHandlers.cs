@@ -62,7 +62,8 @@ namespace CommonUtilities
 
         private void ShowTargets(Scp096AddTargetEventArgument ev)
         {
-            ev.Player.GiveTextHint("You are target of SCP-096, run!", 5);
+            if(ev.RageState != PlayableScps.Scp096PlayerState.Calming)
+                ev.Player.GiveTextHint("You are target of SCP-096, run!", 5);
         }
 
         private void BlockDoors(DoorInteractEventArgs ev)
@@ -188,7 +189,11 @@ namespace CommonUtilities
         private static void CassieDelay_Elapsed(object sender, ElapsedEventArgs e)
         {
             Map.Get.Nuke.StartDetonation();
-            Map.Get.Nuke.InsidePanel.Locked = true;
+            if(!PluginClass.Config.canBeDisabled)
+                Map.Get.Nuke.InsidePanel.Locked = true;
+            else
+                Map.Get.Nuke.InsidePanel.Locked = false;
+
             Server.Get.Players.ForEach(p => p.SendBroadcast(5, "Automatic Nuke has been activated", true));
             CassieDelay.Stop();
             CassieDelay.Enabled = false;

@@ -12,6 +12,9 @@ namespace CommonUtilities
         [Description("Is Automatic nuke enabled?")]
         public bool isNuke = true;
 
+        [Description("Can players disable the nuke?")]
+        public bool canBeDisabled = false;
+
         [Description("Time after which nuke is activated automatically in seconds")]
         public int NukeActivationDelay = 900;
 
