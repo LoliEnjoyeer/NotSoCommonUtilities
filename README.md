@@ -5,7 +5,7 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 
 #### Automated Nuke Detonation
 - Prevents people from camping in the facility for too long
-- Can't be disabled by a player (Will give config for that later)
+- Can't be disabled by a player by default (can be changed in config)
 - C.A.S.S.I.E Has special message for that event
 
 #### Randomised blackouts and flickers
