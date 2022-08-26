@@ -1,11 +1,11 @@
 # NotSoCommonUtilities
 Synapse plugin for game SCP Secret Laboratory that adds features to make game experience more interesting. Each feature can be disabled separately in config file.
 
-## Features for now
+## Features
 
 #### Automated Nuke Detonation
 - Prevents people from camping in the facility for too long
-- Can't be disabled by a player (Will give config for that later)
+- Can't be disabled by a player by default (can be changed in config)
 - C.A.S.S.I.E Has special message for that event
 
 #### Randomised blackouts and flickers
@@ -29,19 +29,7 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 - If you are target of 096 you will get text notification
 
 
-## TODO List
-
-- Guards can escape turning into mtf ✅
-- Mtf/CI can escort other team turning them into their own
-- Easy custom loudouts with pure config file
-- custom 914 recipes
-- ability to blindfold somebody
-- Ability for players to fix blackouts permamently ✅
-- Maybe more...
-
-
 ## Credits
 - Plugin idea came while looking at exiled version of the plugin created by Exiled team I think? (https://github.com/Exiled-Team/Common-Utils) thought it's really awesome and wanted to create something similar yet something different for Synapse users
 - code is mine
 - C.A.S.S.I.E Messages looked up at steam guide (https://steamcommunity.com/sharedfiles/filedetails/?id=2275568019) created by Feiah (https://steamcommunity.com/id/Feiah)
-- will add more credits as I add more functionality to the plugin
