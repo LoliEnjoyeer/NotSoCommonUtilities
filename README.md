@@ -19,8 +19,8 @@ Synapse plugin for game SCP Secret Laboratory that adds features to make game ex
 #### Coins blocking doors
 - Coins finally getting some usage
 - While having coin in hand interact with door to block them, it will:
-  1 Close the doors (if they aren't closed)
-  2 Lock them for X amount of seconds 
+  - Close the doors (if they aren't closed)
+  - Lock them for X amount of seconds 
   
 #### Guards can escape
 - Guards while approaching the surface escape for ClassD/Scientist will turn into Ntf Cadet
